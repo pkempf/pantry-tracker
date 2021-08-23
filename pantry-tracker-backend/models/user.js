@@ -216,7 +216,7 @@ class User {
   static async addIngredient(username, ingredientName) {
     const ingredientExistsCheck = await db.query(
       `SELECT name FROM ingredients WHERE name = $1`,
-      [ingredientId]
+      [ingredientName]
     );
 
     if (!ingredientExistsCheck.rows[0])

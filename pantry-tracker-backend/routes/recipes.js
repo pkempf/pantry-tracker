@@ -11,13 +11,13 @@ const Recipe = require("../models/recipe");
 
 const recipeNewSchema = require("../schemas/recipeNew.json");
 const recipeUpdateSchema = require("../schemas/recipeUpdate.json");
-const recipeyGetSchema = require("../schemas/recipeGet.json");
+const recipeGetSchema = require("../schemas/recipeGet.json");
 
 const router = new express.Router();
 
 /** POST / { recipe } =>  { recipe }
  *
- * company should be { name, instructions, category, area }
+ * recipe should be { name, instructions, category, area }
  * name and instructions are required
  *
  * Returns { id, name, instructions, category, area }
@@ -27,7 +27,7 @@ const router = new express.Router();
 
 router.post("/", ensureAdmin, async function (req, res, next) {
   try {
-    const validator = jsonschema.validate(req.body, routerNewSchema);
+    const validator = jsonschema.validate(req.body, recipeNewSchema);
     if (!validator.valid) {
       const errs = validator.errors.map((e) => e.stack);
       throw new BadRequestError(errs);
@@ -111,7 +111,7 @@ router.patch("/:id", ensureAdmin, async function (req, res, next) {
       throw new BadRequestError(errs);
     }
 
-    const recipe = await Recipe.update(req.params.handle, req.body);
+    const recipe = await Recipe.update(req.params.id, req.body);
     return res.json({ recipe });
   } catch (err) {
     return next(err);
@@ -177,7 +177,10 @@ router.delete(
     try {
       await Recipe.removeIngredient(req.params.id, req.params.name);
       return res.json({
-        deletedIngredient: { id: req.params.id, name: req.params.name },
+        deletedIngredient: {
+          recipeId: req.params.id,
+          ingredientName: req.params.name,
+        },
       });
     } catch (err) {
       return next(err);

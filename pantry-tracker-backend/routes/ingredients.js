@@ -102,7 +102,7 @@ router.get("/:name", async function (req, res, next) {
  * Authorization required: admin
  */
 
-router.patch("/:id", ensureAdmin, async function (req, res, next) {
+router.patch("/:name", ensureAdmin, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, ingredientUpdateSchema);
     if (!validator.valid) {

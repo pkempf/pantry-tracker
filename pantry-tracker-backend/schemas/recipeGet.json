@@ -1,0 +1,49 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://our.company.com/recipeGet.schema.json",
+  "type": "object",
+  "examples": [
+    {
+      "nameLike": "Pizza",
+      "instructionsLike": "Bake for 15 minutes",
+      "categoryLike": "Entree",
+      "areaLike": "Italy"
+    }
+  ],
+  "properties": {
+    "nameLike": {
+      "$id": "#/properties/nameLike",
+      "type": "string",
+      "title": "The nameLike schema",
+      "description": "A string; GET recipes whose names contain this string",
+      "default": "",
+      "examples": ["Pizza"]
+    },
+    "instructionsLike": {
+      "$id": "#/properties/instructionsLike",
+      "type": "string",
+      "title": "The instructionsLike schema",
+      "description": "A string; GET recipes whose instructions contain this string",
+      "default": "",
+      "examples": ["Bake for 15 minutes"]
+    },
+    "categoryLike": {
+      "$id": "#/properties/categoryLike",
+      "type": "string",
+      "title": "The categoryLike schema",
+      "description": "A string; GET recipes whose categories contain this string",
+      "default": "",
+      "examples": ["Entree"]
+    },
+    "areaLike": {
+      "$id": "#/properties/areaLike",
+      "type": "string",
+      "title": "The areaLike schema",
+      "description": "A string; GET recipes whose areas contain this string",
+      "default": "",
+      "examples": ["Italy"]
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}

@@ -1,0 +1,23 @@
+{
+  "name": "pantry-tracker-backend",
+  "version": "1.0.0",
+  "description": "This is the Express backend for the Pantry Tracker.",
+  "main": "app.js",
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jest": "^27.0.6",
+    "jsonschema": "^1.4.0",
+    "morgan": "^1.10.0",
+    "pg": "^8.7.1",
+    "supertest": "^6.1.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

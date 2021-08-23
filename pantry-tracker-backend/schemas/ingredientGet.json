@@ -1,0 +1,45 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema",
+  "$id": "http://our.company.com/ingredientGet.schema.json",
+  "type": "object",
+  "examples": [
+    {
+      "nameLike": "Peas",
+      "descriptionLike": "green",
+      "typeLike": "vegetable"
+    }
+  ],
+  "properties": {
+    "nameLike": {
+      "$id": "#/properties/nameLike",
+      "type": "string",
+      "title": "The nameLike schema",
+      "description": "A string; GET ingredients whose names contain this string",
+      "default": "",
+      "examples": ["Peas"],
+      "minLength": 0,
+      "maxLength": 50
+    },
+    "descriptionLike": {
+      "$id": "#/properties/descriptionLike",
+      "type": "string",
+      "title": "The descriptionLike schema",
+      "description": "A string; GET ingredients whose descriptions contain this string",
+      "default": "",
+      "examples": ["green", "savory"],
+      "minLength": 0,
+      "maxLength": 100
+    },
+    "typeLike": {
+      "$id": "#/properties/typeLike",
+      "type": "string",
+      "title": "The typeLike schema",
+      "description": "A string; GET ingredients whose types contain this string",
+      "examples": ["vegetable", "liquor"],
+      "minLength": 0,
+      "maxLength": 20
+    }
+  },
+  "additionalProperties": false,
+  "required": []
+}

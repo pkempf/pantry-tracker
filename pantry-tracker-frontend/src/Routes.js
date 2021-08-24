@@ -1,10 +1,10 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Homepage from "./Homepage";
-// import IngredientList from "./ingredients/IngredientList";
-// import IngredientDetail from "./ingredients/IngredientDetail";
+import IngredientsList from "./ingredients/IngredientsList";
 import UserProfile from "./users/UserProfile";
-// import RecipeList from "./recipes/RecipeList";
+import RecipeList from "./recipes/RecipeList";
+import RecipeDetail from "./recipes/RecipeDetail";
 import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
 import EditUserForm from "./forms/EditUserForm";
@@ -16,20 +16,17 @@ const Routes = ({ logIn, logOut, signUp, editUser, tempDevLoginHelpers }) => {
       <Route exact path="/">
         <Homepage />
       </Route>
-      {/* <Route exact path="/ingredients">
-        <IngredientList />
-      </Route>
-      <Route exact path="/ingredients/:name">
-        <IngredientDetail />
+      <Route exact path="/ingredients">
+        <IngredientsList />
       </Route>
       <Route exact path="/recipes">
         <RecipeList />
-      </Route> */}
+      </Route>
+      <Route exact path="/recipes/:id">
+        <RecipeDetail />
+      </Route>
       <Route exact path="/login">
-        <LoginForm
-          logInFunction={logIn}
-          tempDevLoginHelpers={tempDevLoginHelpers}
-        />
+        <LoginForm logInFunction={logIn} />
       </Route>
       <Route exact path="/signup">
         <SignUpForm signUpFunction={signUp} />

@@ -1,0 +1,12 @@
+.CompanyCard {
+  color: black;
+  text-decoration: none;
+}
+
+.CompanyCard:hover {
+  text-decoration: none;
+}
+
+.CompanyCard:hover > div {
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}

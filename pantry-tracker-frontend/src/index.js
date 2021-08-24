@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import ReactDOM from "react-dom";
-import "bootswatch/dist/yeti/bootstrap.min.css";
+import "bootswatch/dist/litera/bootstrap.min.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 

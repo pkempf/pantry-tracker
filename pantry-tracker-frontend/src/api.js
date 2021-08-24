@@ -48,14 +48,14 @@ class PantryApi {
 
   // INGREDIENTS -------------------------------------
 
-  /** Get details on a company by handle. */
+  /** Get details on an ingredient by name. */
 
   static async getIngredient(name) {
     let res = await this.request(`ingredients/${name}`);
     return res.ingredient;
   }
 
-  /** Get a list of companies, optionally filtering by
+  /** Get a list of ingredients, optionally filtering by
    * nameLike, descriptionLike, or typeLike. */
 
   static async getIngredients(
@@ -70,6 +70,54 @@ class PantryApi {
 
     let res = await this.request(`ingredients/`, data);
     return res.ingredients;
+  }
+
+  /** Given list of ingredients and username, add boolean "onHand" to
+   *  each ingredient to indicate whether user possesses ingredient */
+
+  static async indicateOnHandIngredients(listOfIngredients, username) {
+    let user = await this.getUser(username);
+    return listOfIngredients.map((i) => {
+      return { ...i, onHand: user.ingredients.includes(i.name) };
+    });
+  }
+
+  // RECIPES -------------------------------------
+
+  /** Get details on a recipe by id. */
+
+  static async getRecipe(id) {
+    let res = await this.request(`recipes/${id}`);
+    return res.recipe;
+  }
+
+  /** Get a list of recipes, optionally filtering by
+   * nameLike, instructionsLike, categoryLike, or areaLike. */
+
+  static async getRecipes(
+    nameLike = "",
+    instructionsLike = "",
+    categoryLike = "",
+    areaLike = ""
+  ) {
+    let data = {};
+    if (nameLike !== "") data.nameLike = nameLike;
+    if (instructionsLike !== "") data.instructionsLike = instructionsLike;
+    if (categoryLike !== "") data.typeLike = categoryLike;
+    if (areaLike !== "") data.areaLike = areaLike;
+
+    let res = await this.request(`recipes/`, data);
+    return res.recipes;
+  }
+
+  /** Given list of recipes and username, add boolean "isFavorite" to
+   *  each recipe to indicate whether recipe is user's favorite */
+
+  static async indicateFavoriteRecipes(listOfRecipes, username) {
+    let user = await this.getUser(username);
+    return listOfRecipes.map((r) => {
+      return { ...r, isFavorite: user.recipes.includes(r.id) };
+    });
   }
 
   // USERS -----------------------------------------
@@ -119,6 +167,8 @@ class PantryApi {
     }
   }
 
+  /** Make a new user. */
+
   static async createUser(username, password, firstName, lastName, email) {
     try {
       let res = await this.request(
@@ -134,44 +184,71 @@ class PantryApi {
     }
   }
 
-  // JOBS ------------------------------------------
+  /** Given username and ingredient name, add ingredient to user's store.  */
 
-  /** Get a list of jobs, optionally filtering by title */
-
-  static async getJobs(title = "") {
-    let res = await this.request(`jobs/`, title !== "" ? { title } : {});
-    return res.jobs;
-  }
-
-  /** Get one specific job by id */
-
-  static async getJob(id) {
-    let res = await this.request(`jobs/${id}`);
-    return res.job;
-  }
-
-  /** Given list of jobs and username, add boolean "applied" to
-   *  each job to indicate whether user username has applied */
-
-  static async indicateAppliedJobs(listOfJobs, username) {
-    let user = await this.getUser(username);
-    return listOfJobs.map((j) => {
-      return { ...j, applied: user.jobs.includes(j.id) };
-    });
-  }
-
-  /** Given username and job id, have that user apply for that job */
-
-  static async applyForJob(username, jobId) {
+  static async addIngredientToUser(username, ingredientName) {
     try {
       let res = await this.request(
-        `users/${username}/jobs/${jobId}`,
+        `users/${username}/ingredients/${ingredientName}`,
         {},
         "post"
       );
       return res;
     } catch (e) {
-      console.log("Couldn't apply for job.");
+      console.log(
+        `Couldn't add ingredient ${ingredientName} to user ${username}.`
+      );
+    }
+  }
+
+  /** Given username and ingredient name, remove ingredient from user's store.  */
+
+  static async removeIngredientFromUser(username, ingredientName) {
+    try {
+      let res = await this.request(
+        `users/${username}/ingredients/${ingredientName}`,
+        {},
+        "delete"
+      );
+      return res;
+    } catch (e) {
+      console.log(
+        `Couldn't remove ingredient ${ingredientName} from user ${username}.`
+      );
+    }
+  }
+
+  /** Given username and recipe id, add recipe to user's favorites.  */
+
+  static async addRecipeToUser(username, recipeId) {
+    try {
+      let res = await this.request(
+        `users/${username}/recipes/${recipeId}`,
+        {},
+        "post"
+      );
+      return res;
+    } catch (e) {
+      console.log(
+        `Couldn't add recipe ${recipeId} to user ${username}'s favorites.`
+      );
+    }
+  }
+
+  /** Given username and ingredient name, remove recipe from user's favorites.  */
+
+  static async removeRecipeFromUser(username, recipeId) {
+    try {
+      let res = await this.request(
+        `users/${username}/recipes/${recipeId}`,
+        {},
+        "delete"
+      );
+      return res;
+    } catch (e) {
+      console.log(
+        `Couldn't remove recipe ${recipeId} from user ${username}'s favorites.`
+      );
     }
   }
 }

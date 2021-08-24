@@ -39,7 +39,6 @@ function App() {
             logOut={logOut}
             signUp={signUp}
             editUser={editUser}
-            tempDevLoginHelpers={{ setUser, setToken }}
           />
         </Container>
       </AlertContext.Provider>

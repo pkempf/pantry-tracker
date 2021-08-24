@@ -103,7 +103,7 @@ const UserProfile = () => {
         {ingredients.map((i) => {
           return (
             <li key={i.name}>
-              {i.name} ({i.type})
+              {i.name} <i>{i.type !== null ? `(${i.type})` : null}</i>
             </li>
           );
         })}

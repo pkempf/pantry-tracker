@@ -6,6 +6,7 @@ CREATE DATABASE pantry_tracker;
 \connect pantry_tracker
 
 \i pantry-schema.sql
+\i pantry-seed.sql
 
 \echo 'Delete and recreate pantry_tracker_test db?'
 \prompt 'Return for yes or control-C to cancel > ' foo

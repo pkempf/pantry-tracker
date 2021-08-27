@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="JobList container"
+  >
+    <form
+      class="SearchBar"
+    >
+      <div
+        class="align-items-center form-row"
+      >
+        <div
+          class="mr-auto col-md-10 col-9"
+        >
+          <label
+            class="form-label sr-only"
+            for="searchTerm"
+          >
+            Search Term
+          </label>
+          <input
+            class="mb-3 form-control"
+            id="searchTerm"
+            name="searchTerm"
+            placeholder="Enter search term..."
+            value=""
+          />
+        </div>
+        <div
+          class="d-flex justify-content-end col-md-2 col-auto"
+        >
+          <button
+            class="mb-3 btn btn-primary"
+            type="submit"
+          >
+            Search
+          </button>
+        </div>
+      </div>
+    </form>
+    <p>
+      No matching ingredients found.
+    </p>
+  </div>
+</DocumentFragment>
+`;

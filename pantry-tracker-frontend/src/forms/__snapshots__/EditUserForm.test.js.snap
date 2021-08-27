@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="SignUpForm justify-content-center container"
+  >
+    <div
+      class="PantryForm justify-content-center row"
+    >
+      <div
+        class="col-md-8 col-sm-10"
+      >
+        <div
+          class="card"
+        >
+          <h4
+            class="card-header"
+          >
+            Edit test's Profile
+          </h4>
+          <div
+            class="card-body"
+          >
+            <form
+              class=""
+            >
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="username"
+                >
+                  Username
+                </label>
+                <input
+                  class="form-control"
+                  id="username"
+                  name="username"
+                  placeholder=""
+                  readonly=""
+                  required=""
+                  style="background-color: rgb(238, 238, 238); border-radius: 5px; padding-left: 10px;"
+                  type="text"
+                  value="test"
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="firstName"
+                >
+                  First Name
+                </label>
+                <input
+                  class="form-control"
+                  id="firstName"
+                  name="firstName"
+                  placeholder=""
+                  required=""
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="lastName"
+                >
+                  Last Name
+                </label>
+                <input
+                  class="form-control"
+                  id="lastName"
+                  name="lastName"
+                  placeholder=""
+                  required=""
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="email"
+                >
+                  Email
+                </label>
+                <input
+                  class="form-control"
+                  id="email"
+                  name="email"
+                  placeholder=""
+                  required=""
+                  type="email"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="password"
+                >
+                  Confirm password to make changes
+                </label>
+                <input
+                  class="form-control"
+                  id="password"
+                  name="password"
+                  placeholder="Password"
+                  required=""
+                  type="password"
+                  value=""
+                />
+              </div>
+              <button
+                class="mr-2 btn btn-primary"
+                type="submit"
+              >
+                Save Changes
+              </button>
+              <a
+                class="btn btn-secondary"
+                href="/profile"
+              >
+                Back
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

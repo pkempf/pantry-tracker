@@ -13,7 +13,7 @@ it("renders without crashing", () => {
 it("matches the snapshot", () => {
   const { asFragment } = render(
     <MemoryRouter>
-      <RecipeCard company={{}} />
+      <RecipeCard recipe={{}} />
     </MemoryRouter>
   );
   expect(asFragment()).toMatchSnapshot();

@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="IngredientCard mb-2 card"
+  >
+    <div
+      class="card-body"
+    >
+      <div
+        class="card-title h5"
+      >
+        <b />
+      </div>
+      <div
+        class="mb-2 text-muted card-subtitle h6"
+      />
+      <div
+        class="row"
+      >
+        <div
+          class="col-sm-8"
+        >
+          <span
+            class="font-weight-light"
+          />
+          <span />
+        </div>
+        <div
+          class="col-sm-4"
+        >
+          <div
+            class="d-flex justify-content-end m-0 p-0"
+          >
+            <div
+              class="mt-2"
+            >
+              <button
+                class="btn btn-secondary"
+                disabled=""
+                type="button"
+              >
+                <b>
+                  Out of stock
+                </b>
+              </button>
+              <button
+                class="ml-1 btn btn-success"
+                type="button"
+              >
+                (Click to add)
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

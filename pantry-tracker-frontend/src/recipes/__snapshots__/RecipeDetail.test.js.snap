@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="RecipeDetail container"
+  >
+    <h2>
+       
+      <button
+        class="btn btn-text"
+        type="button"
+      >
+        <i
+          aria-label="Add favorite"
+          class="fa fa-heart-o"
+        />
+      </button>
+    </h2>
+    <h5>
+       -  
+    </h5>
+    <h3
+      class="mt-3"
+    >
+      Ingredients:
+    </h3>
+    <p>
+      This recipe has no listed ingredients.
+    </p>
+    <h3
+      class="mt-3"
+    >
+      Instructions:
+    </h3>
+    <p />
+  </div>
+</DocumentFragment>
+`;

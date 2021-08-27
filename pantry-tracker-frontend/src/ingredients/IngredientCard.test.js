@@ -2,7 +2,7 @@ import { render } from "@testing-library/react";
 import IngredientCard from "./IngredientCard";
 
 it("renders without crashing", () => {
-  render(<IngredientCard job={{}} />);
+  render(<IngredientCard ingredient={{}} />);
 });
 
 it("matches the snapshot", () => {

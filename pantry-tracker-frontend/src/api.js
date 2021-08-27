@@ -48,6 +48,20 @@ class PantryApi {
 
   // INGREDIENTS -------------------------------------
 
+  /** Add a new ingredient, given an ingredient object */
+
+  static async addIngredient(ingredient) {
+    let res = await this.request(`ingredients/`, ingredient, "post");
+    return res.ingredient;
+  }
+
+  /** Delete an ingredient by name */
+
+  static async deleteIngredient(name) {
+    let res = await this.request(`ingredients/${name}`, {}, "delete");
+    return res;
+  }
+
   /** Get details on an ingredient by name. */
 
   static async getIngredient(name) {
@@ -72,6 +86,21 @@ class PantryApi {
     return res.ingredients;
   }
 
+  /** Given an ingredient object, update that ingredient */
+
+  static async editIngredient(ingredient) {
+    let ingredientToSend = { ...ingredient };
+    delete ingredientToSend.name;
+
+    let res = await this.request(
+      `ingredients/${ingredient.name}`,
+      ingredientToSend,
+      "patch"
+    );
+
+    return res;
+  }
+
   /** Given list of ingredients and username, add boolean "onHand" to
    *  each ingredient to indicate whether user possesses ingredient */
 
@@ -83,6 +112,20 @@ class PantryApi {
   }
 
   // RECIPES -------------------------------------
+
+  /** Add a new recipe, given a recipe object */
+
+  static async addRecipe(recipe) {
+    let res = await this.request(`recipes/`, recipe, "post");
+    return res.recipe;
+  }
+
+  /** Delete a recipe by id */
+
+  static async deleteRecipe(id) {
+    let res = await this.request(`recipes/${id}`, {}, "delete");
+    return res;
+  }
 
   /** Get details on a recipe by id. */
 
@@ -110,6 +153,14 @@ class PantryApi {
     return res.recipes;
   }
 
+  /** Given an id and a recipe object, update that recipe */
+
+  static async editRecipe(id, updatedRecipe) {
+    let res = await this.request(`recipes/${id}`, updatedRecipe, "patch");
+
+    return res;
+  }
+
   /** Given list of recipes and username, add boolean "isFavorite" to
    *  each recipe to indicate whether recipe is user's favorite */
 
@@ -118,6 +169,34 @@ class PantryApi {
     return listOfRecipes.map((r) => {
       return { ...r, isFavorite: user.recipes.includes(r.id) };
     });
+  }
+
+  /** Add an ingredient to a recipe, given recipe id, ingredient name,
+   *  and ingredient amount
+   */
+
+  static async addIngredientToRecipe(recipeId, ingredientName, amount) {
+    try {
+      let res = await this.request(
+        `recipes/${recipeId}/ingredients/${ingredientName}`,
+        { amount },
+        "post"
+      );
+      return res;
+    } catch (err) {
+      return err;
+    }
+  }
+
+  /** Remove an ingredient from a recipe, given recipe id and ingredient name */
+
+  static async removeIngredientFromRecipe(recipeId, ingredientName) {
+    let res = await this.request(
+      `recipes/${recipeId}/ingredients/${ingredientName}`,
+      {},
+      "delete"
+    );
+    return res;
   }
 
   // USERS -----------------------------------------
@@ -232,10 +311,11 @@ class PantryApi {
       console.log(
         `Couldn't add recipe ${recipeId} to user ${username}'s favorites.`
       );
+      return { message: "Problem adding favorite." };
     }
   }
 
-  /** Given username and ingredient name, remove recipe from user's favorites.  */
+  /** Given username and recipe id, remove recipe from user's favorites.  */
 
   static async removeRecipeFromUser(username, recipeId) {
     try {
@@ -249,6 +329,22 @@ class PantryApi {
       console.log(
         `Couldn't remove recipe ${recipeId} from user ${username}'s favorites.`
       );
+      return { message: "Problem removing favorite." };
+    }
+  }
+
+  /** Given username and recipe ID, check if recipe is among user's favorites. */
+
+  static async checkFavorite(username, recipeId) {
+    try {
+      const userRes = await this.getUser(username);
+      const userRecipes = userRes.recipes;
+
+      let isFavorite = userRecipes.includes(+recipeId);
+
+      return isFavorite;
+    } catch (e) {
+      return { message: "Couldn't determine favorite." };
     }
   }
 }

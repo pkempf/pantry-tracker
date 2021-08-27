@@ -56,6 +56,7 @@ const PantryForm = ({
                       placeholder={field.placeholder || ""}
                       readOnly={field.readOnly}
                       style={field.styleOverride || {}}
+                      as={field.asOverride || "input"}
                     />
                   </Form.Group>
                 );

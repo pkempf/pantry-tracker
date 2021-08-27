@@ -16,6 +16,11 @@ const NavBar = () => {
       <Navbar.Collapse className="justify-content-end" id="pantry-navbar-nav">
         {user.username ? (
           <Nav>
+            {user.isAdmin ? (
+              <Nav.Link as={Link} to="/admin">
+                Admin Dashboard
+              </Nav.Link>
+            ) : null}
             <Nav.Link as={Link} to="/ingredients">
               Ingredients
             </Nav.Link>

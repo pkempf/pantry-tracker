@@ -19,6 +19,9 @@ const IngredientCard = ({ ingredient, add, remove }) => {
             <span className="font-weight-light">
               {ingredient.description || ""}
             </span>
+            <span>
+              {ingredient.amount ? `Amount: ${ingredient.amount}` : ""}
+            </span>
           </Col>
           <Col sm={4}>
             <div className="d-flex justify-content-end m-0 p-0">

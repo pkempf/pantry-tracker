@@ -9,12 +9,44 @@ import LoginForm from "./forms/LoginForm";
 import SignUpForm from "./forms/SignUpForm";
 import EditUserForm from "./forms/EditUserForm";
 import Logout from "./Logout";
+import AdminDashboard from "./admin/AdminDashboard";
+import AddIngredientForm from "./admin/AddIngredientForm";
+import AddRecipeForm from "./admin/AddRecipeForm";
+import RemoveIngredient from "./admin/RemoveIngredient";
+import RemoveRecipe from "./admin/RemoveRecipe";
+import EditIngredientForm from "./admin/EditIngredientForm";
+import EditRecipeAttributesForm from "./admin/EditRecipeAttributesForm";
+import EditRecipeIngredients from "./admin/EditRecipeIngredients";
 
-const Routes = ({ logIn, logOut, signUp, editUser, tempDevLoginHelpers }) => {
+const Routes = ({ logIn, logOut, signUp, editUser }) => {
   return (
     <Switch>
       <Route exact path="/">
         <Homepage />
+      </Route>
+      <Route exact path="/admin">
+        <AdminDashboard />
+      </Route>
+      <Route exact path="/addingredient">
+        <AddIngredientForm />
+      </Route>
+      <Route exact path="/addrecipe">
+        <AddRecipeForm />
+      </Route>
+      <Route exact path="/removeingredient">
+        <RemoveIngredient />
+      </Route>
+      <Route exact path="/removerecipe">
+        <RemoveRecipe />
+      </Route>
+      <Route exact path="/ingredients/:name/edit">
+        <EditIngredientForm />
+      </Route>
+      <Route exact path="/recipes/:id/editattributes">
+        <EditRecipeAttributesForm />
+      </Route>
+      <Route exact path="/recipes/:id/editingredients">
+        <EditRecipeIngredients />
       </Route>
       <Route exact path="/ingredients">
         <IngredientsList />

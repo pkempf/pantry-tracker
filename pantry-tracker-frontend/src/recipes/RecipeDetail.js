@@ -10,13 +10,14 @@ const RecipeDetail = () => {
   const { id } = useParams();
   const user = useContext(UserContext);
   const [recipe, setRecipe] = useState({});
+  const [needsUpdate, setNeedsUpdate] = useState(true);
 
   useEffect(() => {
     let isRendered = true;
 
     async function getRecipe(recipeId) {
       try {
-        if (isRendered && user.username) {
+        if (isRendered && user.username && needsUpdate) {
           let recipeRes = await PantryApi.getRecipe(recipeId);
           let indicatedIngredients = await PantryApi.indicateOnHandIngredients(
             recipeRes.ingredients.map((i) => {
@@ -25,7 +26,17 @@ const RecipeDetail = () => {
             user.username
           );
 
-          setRecipe({ ...recipeRes, ingredients: indicatedIngredients });
+          let favoriteRes = await PantryApi.checkFavorite(
+            user.username,
+            recipeId
+          );
+
+          setRecipe({
+            ...recipeRes,
+            ingredients: indicatedIngredients,
+            isFavorite: favoriteRes,
+          });
+          setNeedsUpdate(false);
         }
       } catch (e) {
         console.log(e);
@@ -36,7 +47,7 @@ const RecipeDetail = () => {
     return () => {
       isRendered = false;
     };
-  }, [user.username, id]);
+  }, [user.username, id, needsUpdate]);
 
   const addIngredient = useCallback(
     async (ingredient) => {
@@ -94,10 +105,15 @@ const RecipeDetail = () => {
 
   const addFavorite = useCallback(
     async (recipe) => {
-      let addRes = await PantryApi.addRecipeToUser(user.username, recipe.id);
+      if (!recipe.isFavorite) {
+        console.log(recipe);
+        let addRes = await PantryApi.addRecipeToUser(user.username, recipe.id);
+        console.log(addRes);
 
-      if (addRes.added && addRes.added === recipe.id) {
-        setRecipe({ ...recipe, isFavorite: true });
+        if (addRes.added && addRes.added === recipe.id) {
+          setRecipe({ ...recipe, isFavorite: true });
+          setNeedsUpdate(true);
+        }
       }
     },
     [user.username]
@@ -105,17 +121,20 @@ const RecipeDetail = () => {
 
   const removeFavorite = useCallback(
     async (recipe) => {
-      let removeRes = await PantryApi.removeRecipeFromUser(
-        user.username,
-        recipe.id
-      );
+      if (recipe.isFavorite) {
+        let removeRes = await PantryApi.removeRecipeFromUser(
+          user.username,
+          recipe.id
+        );
 
-      if (
-        removeRes.message &&
-        removeRes.message ===
-          `Removed recipe ${recipe.id} from user ${user.username}'s favorites`
-      ) {
-        setRecipe({ ...recipe, isFavorite: false });
+        if (
+          removeRes.message &&
+          removeRes.message ===
+            `Removed recipe ${recipe.id} from user ${user.username}'s favorites`
+        ) {
+          setRecipe({ ...recipe, isFavorite: false });
+          setNeedsUpdate(true);
+        }
       }
     },
     [user.username]
@@ -153,7 +172,7 @@ const RecipeDetail = () => {
           />
         ))
       ) : (
-        <p>No matching ingredients found.</p>
+        <p>This recipe has no listed ingredients.</p>
       )}
       <h3 className="mt-3">Instructions:</h3>
       <p>

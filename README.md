@@ -20,7 +20,7 @@ These features were what I considered the minimum viable product. More will be a
 
 ## Tests
 
-The backend can be tested by navigating to the /pantry-tracker-backend/ folder and running `jest -i`. The frontend can be tested (after running `npm install') using `npm test`.
+The backend can be tested by navigating to the /pantry-tracker-backend/ folder and running `jest -i`. The frontend can be tested (after running `npm install`) using `npm test`.
 
 ## Example user flow
 

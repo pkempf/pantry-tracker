@@ -367,6 +367,12 @@ class PantryApi {
 
   static async getUserRecipes(username) {
     try {
+      const recipesRes = await this.request(
+        `users/${username}/recipes`,
+        {},
+        "get"
+      );
+      return recipesRes.recipes;
     } catch (e) {
       return { message: "Couldn't get favorite recipes." };
     }

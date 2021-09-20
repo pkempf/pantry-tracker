@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
@@ -31,34 +31,23 @@ const UserProfile = () => {
 
     populateIngredients();
 
-    async function populateRecipeDetail() {
+    async function populateRecipes() {
       try {
         if (isRendered && user.username) {
-          let populatedRecipes = [];
-          for (let i = 0; i < user.recipes.length; i++) {
-            let recipeDetail = await PantryApi.getRecipe(user.recipes[i]);
-            populatedRecipes.push(recipeDetail);
-          }
-          populatedRecipes.sort((recipe1, recipe2) => {
-            return recipe1.name < recipe2.name
-              ? -1
-              : recipe1.name > recipe2.name
-              ? 1
-              : 0;
-          });
-          setRecipes(populatedRecipes);
+          let userRecipes = await PantryApi.getUserRecipes(user.username);
+          if (userRecipes instanceof Array) setRecipes(userRecipes);
         }
       } catch (e) {
         console.log(e);
       }
     }
 
-    populateRecipeDetail();
+    populateRecipes();
 
     return () => {
       isRendered = false;
     };
-  }, [user.username, user.ingredients, user.recipes, user]);
+  }, [user.username, user]);
 
   if (!user.username) return <Redirect to="/" />;
 
@@ -95,7 +84,11 @@ const UserProfile = () => {
       <h5>Favorite recipes:</h5>
       <ul>
         {recipes.map((r) => {
-          return <li key={r.id}>{r.name}</li>;
+          return (
+            <li key={r.id}>
+              <Link to={`/recipes/${r.id}`}>{r.name}</Link>
+            </li>
+          );
         })}
       </ul>
     </Container>

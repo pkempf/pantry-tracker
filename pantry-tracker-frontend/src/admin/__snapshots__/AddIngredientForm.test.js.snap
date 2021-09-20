@@ -1,3 +1,102 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches the snapshot 1`] = `<DocumentFragment />`;
+exports[`matches the snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="AddIngredientForm justify-content-center container"
+  >
+    <div
+      class="PantryForm justify-content-center row"
+    >
+      <div
+        class="col-md-8 col-sm-10"
+      >
+        <div
+          class="card"
+        >
+          <h4
+            class="card-header"
+          >
+            Add Ingredient
+          </h4>
+          <div
+            class="card-body"
+          >
+            <form
+              class=""
+            >
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="name"
+                >
+                  Name:
+                </label>
+                <input
+                  class="form-control"
+                  id="name"
+                  name="name"
+                  placeholder="Example: Maple syrup"
+                  required=""
+                  type="text"
+                  value=""
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="description"
+                >
+                  Description:
+                </label>
+                <textarea
+                  class="form-control"
+                  id="description"
+                  name="description"
+                  placeholder="Enter the ingredient's description here"
+                  style="height: 100px;"
+                  type="text"
+                />
+              </div>
+              <div
+                class="form-group"
+              >
+                <label
+                  class="form-label"
+                  for="type"
+                >
+                  Type:
+                </label>
+                <input
+                  class="form-control"
+                  id="type"
+                  name="type"
+                  placeholder="Example: vegetable"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <button
+                class="mr-2 btn btn-primary"
+                type="submit"
+              >
+                Add Ingredient
+              </button>
+              <a
+                class="btn btn-secondary"
+                href="/ingredients"
+              >
+                Back
+              </a>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</DocumentFragment>
+`;

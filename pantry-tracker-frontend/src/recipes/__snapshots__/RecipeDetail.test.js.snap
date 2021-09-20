@@ -16,6 +16,12 @@ exports[`matches the snapshot 1`] = `
           class="fa fa-heart-o"
         />
       </button>
+      <a
+        class="btn-sm btn btn-primary"
+        href="/recipes/undefined/addingredients"
+      >
+        Add Ingredients
+      </a>
     </h2>
     <h5>
        -  

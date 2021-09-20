@@ -197,6 +197,26 @@ router.delete(
   }
 );
 
+/** GET /[username]/recipes => { recipes: [{id, name}, ...] }
+ *
+ * Returns { recipes: [{id, name}, ...] }
+ *
+ * Authorization required: admin or logged in as this user
+ **/
+
+router.get(
+  "/:username/recipes",
+  ensureAdminOrCorrectUser,
+  async function (req, res, next) {
+    try {
+      const result = await User.getUserRecipes(req.params.username);
+      return res.json({ recipes: result.recipes });
+    } catch (err) {
+      return next(err);
+    }
+  }
+);
+
 /** POST /[username]/recipes/[id] => { added: recipeId }
  *
  *  Adds a user/recipe linkage with specified username/recipe id

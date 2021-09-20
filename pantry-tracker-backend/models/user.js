@@ -299,6 +299,24 @@ class User {
     };
   }
 
+  /** get all of user's favorite recipes
+   *  returns { recipes: [{id, name}, {id, name}, ...] }
+   */
+
+  static async getUserRecipes(username) {
+    let result = await db.query(
+      `SELECT ur.recipe_id AS id, r.name AS name
+             FROM users_recipes AS ur LEFT JOIN recipes AS r
+               ON ur.recipe_id = r.id
+            WHERE ur.username = $1`,
+      [username]
+    );
+    const recipes = {
+      recipes: result.rows,
+    };
+    return recipes;
+  }
+
   /** save recipe to user's favorites
    *
    *  returns { user, recipeId }

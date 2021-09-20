@@ -39,11 +39,22 @@ describe("POST /ingredients", function () {
     });
   });
 
-  test("unauth for non-admin", async function () {
+  test("ok for non-admin", async function () {
     const resp = await request(app)
       .post("/ingredients")
       .send(newIngredient)
       .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(201);
+    expect(resp.body).toEqual({
+      ingredient: { ...newIngredient },
+    });
+  });
+
+  test("unauth for not logged in", async function () {
+    const resp = await request(app)
+      .post("/ingredients")
+      .send(newIngredient)
+      .set("authorization", `Bearer undefined`);
     expect(resp.statusCode).toEqual(401);
   });
 

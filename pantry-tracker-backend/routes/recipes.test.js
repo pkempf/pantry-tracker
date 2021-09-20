@@ -38,11 +38,20 @@ describe("POST /recipes", function () {
     expect(resp.body).toEqual({ recipe: { id: 4, ...newRecipe } });
   });
 
-  test("unauth for non-admin", async function () {
+  test("ok for non-admin", async function () {
     const resp = await request(app)
       .post("/recipes")
       .send(newRecipe)
       .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.statusCode).toEqual(201);
+    expect(resp.body).toEqual({ recipe: { id: 5, ...newRecipe } });
+  });
+
+  test("unauth for not logged in", async function () {
+    const resp = await request(app)
+      .post("/recipes")
+      .send(newRecipe)
+      .set("authorization", `Bearer undefined`);
     expect(resp.statusCode).toEqual(401);
   });
 
@@ -296,11 +305,25 @@ describe("POST /recipes/:id/ingredients/:name", function () {
     });
   });
 
-  test("unauth for non-admin", async function () {
+  test("works for non-admins", async function () {
     const resp = await request(app)
       .post(`/recipes/1/ingredients/I3`)
       .send({ amount: "Amount3" })
       .set("authorization", `Bearer ${u1Token}`);
+    expect(resp.body).toEqual({
+      added: {
+        recipeId: 1,
+        ingredientName: "I3",
+        ingredientAmount: "Amount3",
+      },
+    });
+  });
+
+  test("unauth for non-admin", async function () {
+    const resp = await request(app)
+      .post(`/recipes/1/ingredients/I3`)
+      .send({ amount: "Amount3" })
+      .set("authorization", `Bearer undefined`);
     expect(resp.statusCode).toEqual(401);
   });
 

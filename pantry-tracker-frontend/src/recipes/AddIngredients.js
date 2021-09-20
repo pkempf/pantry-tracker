@@ -8,7 +8,7 @@ import PantryApi from "../api";
 import Form from "react-bootstrap/Form";
 import AlertContext from "../AlertContext";
 
-const EditRecipeIngredients = () => {
+const AddRecipeIngredients = () => {
   const { id } = useParams();
   const user = useContext(UserContext);
   const { setMessage } = useContext(AlertContext);
@@ -93,30 +93,6 @@ const EditRecipeIngredients = () => {
     addIngredient(formData);
   };
 
-  const removeIngredient = useCallback(
-    async (ingredient) => {
-      let removeRes = await PantryApi.removeIngredientFromRecipe(
-        id,
-        ingredient.name
-      );
-
-      if (
-        removeRes.deletedIngredient &&
-        removeRes.deletedIngredient.ingredientName === ingredient.name
-      ) {
-        let updatedIngredients = [...recipe.ingredients];
-        let idx = recipe.ingredients.findIndex(
-          (i) => i.name === ingredient.name
-        );
-
-        updatedIngredients = updatedIngredients.splice(idx, 1);
-        setRecipe({ ...recipe, ingredients: updatedIngredients });
-        setNeedsUpdate(true);
-      }
-    },
-    [id, recipe]
-  );
-
   const handleChange = (evt) => {
     const { name, value } = evt.target;
     setFormData((formData) => ({
@@ -125,20 +101,13 @@ const EditRecipeIngredients = () => {
     }));
   };
 
-  if (!user.isAdmin) {
-    return <Redirect to={`/recipes/${id}/addingredients`} />;
+  if (!user) {
+    return <Redirect to="/" />;
   }
 
   return (
     <Container className="RecipeDetail">
-      <h2>
-        {recipe.name}{" "}
-        <LinkContainer to={`/recipes/${id}/editattributes`}>
-          <Button variant="primary" className="btn-sm">
-            Edit Attributes
-          </Button>
-        </LinkContainer>
-      </h2>
+      <h2>{recipe.name} </h2>
       <h5>
         {recipe.category} - {recipe.area}{" "}
       </h5>
@@ -161,13 +130,6 @@ const EditRecipeIngredients = () => {
               <span>
                 <b>Amount:</b> {ingredient.amount}{" "}
               </span>
-              <Button
-                onClick={() => removeIngredient(ingredient)}
-                className="button-sm ml-2"
-                variant="danger"
-              >
-                Remove
-              </Button>
             </li>
           ))}
         </ul>
@@ -204,11 +166,11 @@ const EditRecipeIngredients = () => {
         </Button>
       </Form>
       <br />
-      <LinkContainer to="/removerecipe">
+      <LinkContainer to={`/recipes/${id}`}>
         <Button>Back</Button>
       </LinkContainer>
     </Container>
   );
 };
 
-export default EditRecipeIngredients;
+export default AddRecipeIngredients;

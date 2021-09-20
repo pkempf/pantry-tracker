@@ -34,14 +34,15 @@ class Recipe {
 
   /** Return all recipes.
    *
-   *  Returns [{id, name, instructions, category, area}, ...]
+   *  Returns [{id, name, instructions, category, area, favoriteCount}, ...]
    */
 
-  static async findAll() {
+  static async findAll(orderBy = "name") {
     const recipesRes = await db.query(
       `SELECT id, name, instructions, category, area
                 FROM recipes
-                ORDER BY name`
+                ORDER BY $1`,
+      [orderBy]
     );
 
     return recipesRes.rows;
@@ -54,14 +55,14 @@ class Recipe {
    *  Returns [{id, name, instructions, category, area}, ...]
    */
 
-  static async findByCriteria(filters) {
+  static async findByCriteria(filters, orderBy = "name") {
     // destructuring the filters
     const { nameLike, instructionsLike, categoryLike, areaLike } =
       filters || {};
 
     // if empty just run findAll()
     if (!(nameLike || instructionsLike || categoryLike || areaLike))
-      return Recipe.findAll();
+      return Recipe.findAll(orderBy);
 
     let filterString = "";
     let values = [];
@@ -95,8 +96,8 @@ class Recipe {
       `SELECT id, name, instructions, category, area
             FROM recipes
             WHERE ${filterString}
-            ORDER BY name`,
-      values
+            ORDER BY $${values.length + 1}`,
+      [...values, orderBy]
     );
 
     return recipesRes.rows;

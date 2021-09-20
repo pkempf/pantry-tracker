@@ -6,7 +6,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const Ingredient = require("../models/ingredient");
 
 const ingredientNewSchema = require("../schemas/ingredientNew.json");
@@ -21,10 +21,10 @@ const router = new express.Router();
  *
  * Returns { name, description, type }
  *
- * Authorization required: admin
+ * Authorization required: logged-in user
  */
 
-router.post("/", ensureAdmin, async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, ingredientNewSchema);
     if (!validator.valid) {

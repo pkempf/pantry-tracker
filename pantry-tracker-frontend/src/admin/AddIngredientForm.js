@@ -56,7 +56,7 @@ const AddIngredientForm = () => {
     }
   }
 
-  if (!user.isAdmin) {
+  if (!user) {
     return <Redirect to="/" />;
   }
 
@@ -67,7 +67,7 @@ const AddIngredientForm = () => {
         fields={formFields}
         submitButtonText="Add Ingredient"
         processData={(data) => add(data)}
-        backButtonTo="/admin"
+        backButtonTo={user.isAdmin ? "/admin" : "/ingredients"}
       />
     </Container>
   );

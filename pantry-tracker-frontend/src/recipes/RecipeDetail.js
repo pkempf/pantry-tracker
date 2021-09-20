@@ -5,6 +5,7 @@ import UserContext from "../UserContext";
 import IngredientCard from "../ingredients/IngredientCard";
 import Button from "react-bootstrap/Button";
 import PantryApi from "../api";
+import { LinkContainer } from "react-router-bootstrap";
 
 const RecipeDetail = () => {
   const { id } = useParams();
@@ -156,6 +157,20 @@ const RecipeDetail = () => {
           <Button onClick={() => addFavorite(recipe)} variant="text">
             <i className="fa fa-heart-o" aria-label="Add favorite"></i>
           </Button>
+        )}
+        {user.isAdmin ? (
+          <>
+            <LinkContainer to={`/recipes/${id}/editattributes`}>
+              <Button className="btn-sm mr-2">Edit Attributes</Button>
+            </LinkContainer>
+            <LinkContainer to={`recipes/${id}/editingredients`}>
+              <Button className="btn-sm">Edit Ingredients</Button>
+            </LinkContainer>
+          </>
+        ) : (
+          <LinkContainer to={`/recipes/${id}/addingredients`}>
+            <Button className="btn-sm">Add Ingredients</Button>
+          </LinkContainer>
         )}
       </h2>
       <h5>

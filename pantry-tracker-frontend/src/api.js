@@ -14,6 +14,10 @@ class PantryApi {
   // the token for interacting with the API will be stored here.
   static token;
 
+  static setToken(newToken) {
+    this.token = newToken;
+  }
+
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
 
@@ -32,17 +36,13 @@ class PantryApi {
     }
   }
 
-  static setToken(newToken) {
-    this.token = newToken;
-  }
-
-  static _setDevTestingToken() {
-    this.setToken(
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-        "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-        "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc"
-    );
-  }
+  //   static _setDevTestingToken() {
+  //     this.setToken(
+  //       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
+  //         "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
+  //         "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc"
+  //     );
+  //   }
 
   // Individual API routes
 
@@ -345,6 +345,30 @@ class PantryApi {
       return isFavorite;
     } catch (e) {
       return { message: "Couldn't determine favorite." };
+    }
+  }
+
+  /** Given username, get list of on-hand ingredients */
+
+  static async getUserIngredients(username) {
+    try {
+      const ingredientsRes = await this.request(
+        `users/${username}/ingredients`,
+        {},
+        "get"
+      );
+      return ingredientsRes.ingredients;
+    } catch (e) {
+      return { message: "Couldn't get ingredients." };
+    }
+  }
+
+  /** Given username, get list of favorite recipes */
+
+  static async getUserRecipes(username) {
+    try {
+    } catch (e) {
+      return { message: "Couldn't get favorite recipes." };
     }
   }
 }

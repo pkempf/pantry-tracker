@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Redirect } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import UserContext from "../UserContext";
 import SearchBar from "../SearchBar";
@@ -11,15 +12,17 @@ const RemoveIngredient = () => {
 
   const [recipes, setRecipes] = useState([]);
   const [filter, setFilter] = useState("");
+  const [needsUpdate, setNeedsUpdate] = useState(true);
 
   useEffect(() => {
     let isRendered = true;
 
     async function getRecipes(filterString = "") {
       try {
-        if (isRendered && user.isAdmin) {
+        if (isRendered && needsUpdate && user.isAdmin) {
           let recipeResults = await PantryApi.getRecipes(filterString);
           setRecipes(recipeResults);
+          setNeedsUpdate(false);
         }
       } catch (e) {
         console.log(e);
@@ -30,25 +33,23 @@ const RemoveIngredient = () => {
     return () => {
       isRendered = false;
     };
-  }, [filter, user.isAdmin, recipes]);
+  }, [filter, user.isAdmin, recipes, needsUpdate]);
 
   const remove = useCallback(
     async (recipe) => {
       let removeRes = await PantryApi.deleteRecipe(recipe.id);
+      console.log(removeRes);
 
-      if (
-        removeRes.message &&
-        removeRes.message ===
-          `Removed recipe ${recipe.id} from user ${user.username}'s favorites`
-      ) {
+      if (removeRes.deleted && removeRes.deleted === `${recipe.id}`) {
         let updatedRecipes = [...recipes];
         let idx = recipes.findIndex((r) => r.name === recipe.name);
 
         updatedRecipes = updatedRecipes.splice(idx, 1);
         setRecipes(updatedRecipes);
+        setNeedsUpdate(true);
       }
     },
-    [user.username, recipes]
+    [recipes]
   );
 
   if (!user.isAdmin) {
@@ -70,20 +71,16 @@ const RemoveIngredient = () => {
                 >
                   Remove
                 </Button>
-                <Button
-                  className="btn-sm m-1"
-                  href={`recipes/${recipe.id}/editattributes`}
-                  variant="primary"
-                >
-                  Edit Attributes
-                </Button>
-                <Button
-                  className="m-1 mr-3 btn-sm"
-                  href={`recipes/${recipe.id}/editingredients`}
-                  variant="primary"
-                >
-                  Edit Ingredients
-                </Button>
+                <LinkContainer to={`recipes/${recipe.id}/editattributes`}>
+                  <Button className="btn-sm m-1" variant="primary">
+                    Edit Attributes
+                  </Button>
+                </LinkContainer>
+                <LinkContainer to={`recipes/${recipe.id}/editingredients`}>
+                  <Button className="m-1 mr-3 btn-sm" variant="primary">
+                    Edit Ingredients
+                  </Button>
+                </LinkContainer>
                 {recipe.name}
               </li>
             );
@@ -92,6 +89,10 @@ const RemoveIngredient = () => {
       ) : (
         <p>No ingredients found.</p>
       )}
+      <br />
+      <LinkContainer to={`admin`}>
+        <Button>Back</Button>
+      </LinkContainer>
     </Container>
   );
 };

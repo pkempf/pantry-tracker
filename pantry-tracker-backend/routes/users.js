@@ -125,6 +125,26 @@ router.delete(
   }
 );
 
+/** GET /[username]/ingredients => { ingredients: [] }
+ *
+ * Returns { ingredients: [] }
+ *
+ * Authorization required: admin or logged in as this user
+ **/
+
+router.get(
+  "/:username/ingredients",
+  ensureAdminOrCorrectUser,
+  async function (req, res, next) {
+    try {
+      const result = await User.getUserIngredients(req.params.username);
+      return res.json({ ingredients: result.ingredients });
+    } catch (err) {
+      return next(err);
+    }
+  }
+);
+
 /** POST /[username]/ingredients/[name] => { added: ingredientName }
  *
  *  Adds a user/ingredient linkage with specified username/ingredient name

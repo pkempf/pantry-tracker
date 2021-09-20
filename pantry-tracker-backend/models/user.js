@@ -208,6 +208,23 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${username}`);
   }
 
+  /** get all of user's ingredients
+   *  returns { ingredients: [ingredientName, ingredientName, ...] }
+   */
+
+  static async getUserIngredients(username) {
+    let result = await db.query(
+      `SELECT ingredient_name AS "ingredientName"
+             FROM users_ingredients
+            WHERE username = $1`,
+      [username]
+    );
+    const ingredients = {
+      ingredients: result.rows.map((r) => r.ingredientName),
+    };
+    return ingredients;
+  }
+
   /** add ingredient to user's storage
    *
    *  returns { username, ingredientName }

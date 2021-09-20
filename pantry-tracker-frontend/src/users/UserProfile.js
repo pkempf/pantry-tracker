@@ -16,32 +16,20 @@ const UserProfile = () => {
   useEffect(() => {
     let isRendered = true;
 
-    async function populateIngredientDetail() {
+    async function populateIngredients() {
       try {
         if (isRendered && user.username) {
-          let populatedIngredients = [];
-          for (let i = 0; i < user.ingredients.length; i++) {
-            let ingredientDetail = await PantryApi.getIngredient(
-              user.ingredients[i]
-            );
-            populatedIngredients.push(ingredientDetail);
-          }
-          populatedIngredients.sort((ingredient1, ingredient2) => {
-            return ingredient1.name < ingredient2.name
-              ? -1
-              : ingredient1.name > ingredient2.name
-              ? 1
-              : 0;
-          });
-          console.log(populatedIngredients);
-          setIngredients(populatedIngredients);
+          let userIngredients = await PantryApi.getUserIngredients(
+            user.username
+          );
+          if (userIngredients instanceof Array) setIngredients(userIngredients);
         }
       } catch (e) {
         console.log(e);
       }
     }
 
-    populateIngredientDetail();
+    populateIngredients();
 
     async function populateRecipeDetail() {
       try {
@@ -58,7 +46,6 @@ const UserProfile = () => {
               ? 1
               : 0;
           });
-          console.log(populatedRecipes);
           setRecipes(populatedRecipes);
         }
       } catch (e) {
@@ -71,7 +58,7 @@ const UserProfile = () => {
     return () => {
       isRendered = false;
     };
-  }, [user.username, user.ingredients, user.recipes]);
+  }, [user.username, user.ingredients, user.recipes, user]);
 
   if (!user.username) return <Redirect to="/" />;
 
@@ -101,11 +88,7 @@ const UserProfile = () => {
       <h5>Ingredients on hand:</h5>
       <ul>
         {ingredients.map((i) => {
-          return (
-            <li key={i.name}>
-              {i.name} <i>{i.type !== null ? `(${i.type})` : null}</i>
-            </li>
-          );
+          return <li key={i}>{i}</li>;
         })}
       </ul>
 

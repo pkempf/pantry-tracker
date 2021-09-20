@@ -17,6 +17,7 @@ import RemoveRecipe from "./admin/RemoveRecipe";
 import EditIngredientForm from "./admin/EditIngredientForm";
 import EditRecipeAttributesForm from "./admin/EditRecipeAttributesForm";
 import EditRecipeIngredients from "./admin/EditRecipeIngredients";
+import AddIngredients from "./recipes/AddIngredients";
 
 const Routes = ({ logIn, logOut, signUp, editUser }) => {
   return (
@@ -56,6 +57,9 @@ const Routes = ({ logIn, logOut, signUp, editUser }) => {
       </Route>
       <Route exact path="/recipes/:id">
         <RecipeDetail />
+      </Route>
+      <Route exact path="/recipes/:id/addingredients">
+        <AddIngredients />
       </Route>
       <Route exact path="/login">
         <LoginForm logInFunction={logIn} />

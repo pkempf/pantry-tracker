@@ -6,7 +6,7 @@ const jsonschema = require("jsonschema");
 const express = require("express");
 
 const { BadRequestError } = require("../expressError");
-const { ensureAdmin } = require("../middleware/auth");
+const { ensureAdmin, ensureLoggedIn } = require("../middleware/auth");
 const Recipe = require("../models/recipe");
 
 const recipeNewSchema = require("../schemas/recipeNew.json");
@@ -25,7 +25,7 @@ const router = new express.Router();
  * Authorization required: admin
  */
 
-router.post("/", ensureAdmin, async function (req, res, next) {
+router.post("/", ensureLoggedIn, async function (req, res, next) {
   try {
     const validator = jsonschema.validate(req.body, recipeNewSchema);
     if (!validator.valid) {
@@ -144,7 +144,7 @@ router.delete("/:id", ensureAdmin, async function (req, res, next) {
 
 router.post(
   "/:id/ingredients/:name",
-  ensureAdmin,
+  ensureLoggedIn,
   async function (req, res, next) {
     try {
       let { amount } = req.body;

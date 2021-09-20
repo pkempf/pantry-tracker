@@ -101,13 +101,11 @@ const EditRecipeAttributesForm = () => {
         <Card>
           <Card.Header as="h4">
             {`Edit recipe with id ${id}`}
-            <Button
-              variant="primary"
-              className="btn-sm ml-2 mb-2"
-              href={`/recipes/${id}/editingredients`}
-            >
-              Edit Ingredients
-            </Button>
+            <LinkContainer to={`/recipes/${id}/editingredients`}>
+              <Button variant="primary" className="btn-sm ml-2 mb-2">
+                Edit Ingredients
+              </Button>
+            </LinkContainer>
           </Card.Header>
           <Card.Body>
             <Form onSubmit={getInput}>

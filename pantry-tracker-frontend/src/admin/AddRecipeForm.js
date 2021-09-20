@@ -10,7 +10,7 @@ const AddRecipeForm = () => {
   const user = useContext(UserContext);
   const { setMessage } = useContext(AlertContext);
 
-  if (!user.isAdmin) {
+  if (!user) {
     return <Redirect to="/" />;
   }
 

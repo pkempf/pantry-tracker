@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState, useCallback } from "react";
 import { Redirect } from "react-router-dom";
+import { LinkContainer } from "react-router-bootstrap";
 import Container from "react-bootstrap/Container";
 import UserContext from "../UserContext";
 import SearchBar from "../SearchBar";
@@ -11,15 +12,17 @@ const RemoveIngredient = () => {
 
   const [ingredients, setIngredients] = useState([]);
   const [filter, setFilter] = useState("");
+  const [needsUpdate, setNeedsUpdate] = useState(true);
 
   useEffect(() => {
     let isRendered = true;
 
     async function getIngredients(filterString = "") {
       try {
-        if (isRendered && user.isAdmin) {
+        if (isRendered && needsUpdate && user.isAdmin) {
           let ingredientResults = await PantryApi.getIngredients(filterString);
           setIngredients(ingredientResults);
+          setNeedsUpdate(false);
         }
       } catch (e) {
         console.log(e);
@@ -30,25 +33,22 @@ const RemoveIngredient = () => {
     return () => {
       isRendered = false;
     };
-  }, [filter, user.isAdmin, ingredients]);
+  }, [filter, user.isAdmin, needsUpdate, ingredients]);
 
   const remove = useCallback(
     async (ingredient) => {
       let removeRes = await PantryApi.deleteIngredient(ingredient.name);
 
-      if (
-        removeRes.message &&
-        removeRes.message ===
-          `Removed ingredient ${ingredient.name} from user ${user.username}`
-      ) {
+      if (removeRes.deleted && removeRes.deleted === ingredient.name) {
         let updatedIngredients = [...ingredients];
         let idx = ingredients.findIndex((i) => i.name === ingredient.name);
 
         updatedIngredients = updatedIngredients.splice(idx, 1);
         setIngredients(updatedIngredients);
+        setNeedsUpdate(true);
       }
     },
-    [user.username, ingredients]
+    [ingredients]
   );
 
   if (!user.isAdmin) {
@@ -70,13 +70,11 @@ const RemoveIngredient = () => {
                 >
                   Remove
                 </Button>
-                <Button
-                  className="m-1 mr-4"
-                  href={`ingredients/${ingredient.name}/edit`}
-                  variant="primary"
-                >
-                  Edit Attributes
-                </Button>
+                <LinkContainer to={`ingredients/${ingredient.name}/edit`}>
+                  <Button className="m-1 mr-4" variant="primary">
+                    Edit Attributes
+                  </Button>
+                </LinkContainer>
                 {ingredient.name}
               </li>
             );
@@ -85,6 +83,10 @@ const RemoveIngredient = () => {
       ) : (
         <p>No ingredients found.</p>
       )}
+      <br />
+      <LinkContainer to={`admin`}>
+        <Button>Back</Button>
+      </LinkContainer>
     </Container>
   );
 };
